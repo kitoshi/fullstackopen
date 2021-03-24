@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const Header = () => <h1>Give Feedback</h1>
 const Header2 = () => <h1>Statistics</h1>
-const Content = (props) => <p>{props.text} {props.value}</p>
+const Content = (props) => <p>{props.text} {props.value} {props.units}</p>
 
 const App = () => {
   // save clicks of each button to its own state
@@ -10,9 +10,12 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+
   const setToGood = (newGood) => {setGood(newGood)}
   const setToNeutral = (newNeutral) => {setNeutral(newNeutral)}
   const setToBad = (newBad) => {setBad(newBad)}
+
+
 
   return (
     <div>
@@ -24,6 +27,9 @@ const App = () => {
       <Content text="good" value={good} />
       <Content text="neutral" value={neutral} />
       <Content text="bad" value={bad} />
+      <Content text="all" value={good + neutral + bad} />
+      <Content text="average" value={(good + neutral + bad)/3} />
+      <Content text="positive" value={0 + good/(good + neutral + bad)} units="%"/>
     </div>
   )
 }
