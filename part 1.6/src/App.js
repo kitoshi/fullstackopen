@@ -1,8 +1,24 @@
 import React, { useState } from 'react'
 
 const Header = () => <h1>Give Feedback</h1>
+
 const Header2 = () => <h1>Statistics</h1>
+
 const Content = (props) => <p>{props.text} {props.value} {props.units}</p>
+
+const Statistics = (props) => {
+  const all = props.good + props.neutral + props.bad
+  const average = (props.good + props.neutral + props.bad) / 3
+  const positive = (0 + props.good)/(props.good + props.neutral + props.bad)
+
+  return (
+    <>
+    <Content text="all" value={all} />
+    <Content text="average" value={average} />
+    <Content text="positive" value={positive} units="%"/>
+    </>    
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -27,9 +43,7 @@ const App = () => {
       <Content text="good" value={good} />
       <Content text="neutral" value={neutral} />
       <Content text="bad" value={bad} />
-      <Content text="all" value={good + neutral + bad} />
-      <Content text="average" value={(good + neutral + bad)/3} />
-      <Content text="positive" value={0 + good/(good + neutral + bad)} units="%"/>
+      <Statistics good={good} bad={bad} neutral={neutral} />
     </div>
   )
 }
