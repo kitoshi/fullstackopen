@@ -4,7 +4,7 @@ const Header = () => <h1>Give Feedback</h1>
 
 const Header2 = () => <h1>Statistics</h1>
 
-const Statistic = (props) => <p>{props.text} {props.value} {props.good} {props.neutral} {props.bad} {props.units}</p>
+const Statistic = (props) => <tr><td>{props.text}</td><td>{props.value} {props.good} {props.neutral} {props.bad} {props.units}</td></tr>
 
 const Statistics = (props) => {
   const all = props.good + props.neutral + props.bad
@@ -21,12 +21,16 @@ const Statistics = (props) => {
 
   return (
     <>
-    <Statistic text="good" good={props.good} />
-    <Statistic text="neutral" neutral={props.neutral} />
-    <Statistic text="bad" bad={props.bad} />
-    <Statistic text="all" value={all} />
-    <Statistic text="average" value={average} />
-    <Statistic text="positive" value={positive} units="%"/>
+      <table>
+        <tbody>
+          <Statistic text="good" good={props.good}/>
+          <Statistic text="neutral" neutral={props.neutral}/>
+          <Statistic text="bad" bad={props.bad}/>
+          <Statistic text="all" value={all}/>
+          <Statistic text="average" value={average}/>
+          <Statistic text="positive" value={positive} units="%"/>
+        </tbody>
+      </table>
     </>    
   )
 }
