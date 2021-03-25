@@ -4,15 +4,26 @@ const Header = () => <h1>Give Feedback</h1>
 
 const Header2 = () => <h1>Statistics</h1>
 
-const Content = (props) => <p>{props.text} {props.value} {props.units}</p>
+const Content = (props) => <p>{props.text} {props.value} {props.good} {props.neutral} {props.bad} {props.units}</p>
 
 const Statistics = (props) => {
   const all = props.good + props.neutral + props.bad
   const average = (props.good + props.neutral + props.bad) / 3
   const positive = (0 + props.good)/(props.good + props.neutral + props.bad)
 
+  if (all === 0) {
+    return (
+      <>
+      No Feedback Given.
+      </>
+    )
+  }
+
   return (
     <>
+    <Content text="good" good={props.good} />
+    <Content text="neutral" neutral={props.neutral} />
+    <Content text="bad" bad={props.bad} />
     <Content text="all" value={all} />
     <Content text="average" value={average} />
     <Content text="positive" value={positive} units="%"/>
@@ -40,9 +51,6 @@ const App = () => {
       <button onClick={() => setToNeutral(neutral + 1)}>Neutral</button>
       <button onClick={() => setToBad(bad + 1)}>Bad</button>
       <Header2 />
-      <Content text="good" value={good} />
-      <Content text="neutral" value={neutral} />
-      <Content text="bad" value={bad} />
       <Statistics good={good} bad={bad} neutral={neutral} />
     </div>
   )
