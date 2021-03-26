@@ -32,7 +32,7 @@ const App = () => {
   return (
     <div>
       <Content anecdotes={anecdotes} selected={selected} />
-      <Button setSelected={setSelected} selected={selected}/>
+      <Button setSelected={setSelected} />
     </div>
   )
 }
