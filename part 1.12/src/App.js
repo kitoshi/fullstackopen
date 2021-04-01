@@ -2,39 +2,50 @@ import React, { useState } from 'react'
 
 const Button = (props) => {
 
-  const setToSelected = (newSelected) => props.setSelected(newSelected)
+  const random = () => Math.floor(Math.random() * (5 - 0) + 0)
 
-  const setToArray = (newVote) => {
-    props.setVote(newVote)
-    const copy2 = props.array
-    copy2[props.vote] += 0
-    props.setArray(copy2)
+  const setToSelected = (newSelected) => props.setSelected(newSelected)
+  
+
+  const setToVotes = () => {
   }
   
-  const random = () => Math.floor(Math.random() * (5 - 0) + 0)
+
 
   const setToVote = (newVote) => {
     props.setVote(newVote)
-    const copy = {...props.array}
+    const copy = {...props.votes}
     copy[props.vote] += 1
-    props.setArray(copy)
+    props.setVotes(copy)
   }
 
  
 
   return (
     <>
-    <button onClick={() => setToArray(props.selected) + setToSelected(random)}>Next Anecdote</button>
+    <button onClick={() => setToVotes(props.vote) + setToSelected(random)}>Next Anecdote</button>
     <button onClick={() => setToVote(props.selected)}>Vote</button>
     </>
   )
 }
 
 const Content = (props) => {
+
   return (
     <>
+    <h1>Anecdote of the Day</h1>
     <p>{props.anecdotes[props.selected]}</p>
-    <p>has {props.array[props.vote]} votes</p>
+    <p>has {props.votes[props.vote]} votes</p>
+    </>
+  )
+}
+
+const Content2 = (props) => {
+  return (
+    <>
+    <h2>Anecdote with the most votes</h2>
+    <p>{props.anecdotes[Object.keys(props.votes).reduce((a, b) => props.votes[a] > props.votes[b] ? a : b)]}</p>
+    <p>has {Object.values(props.votes).reduce((a, b) => a > b ? a : b)} votes</p>
     </>
   )
 }
@@ -52,14 +63,14 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [vote, setVote] = useState(0)
-  const [array, setArray] = useState([...zeroarray])
-
+  const [votes, setVotes] = useState([...zeroarray])
 
 
   return (
     <div>
-      <Content array={array} anecdotes={anecdotes} selected={selected} zeroarray={zeroarray} vote={vote}/>
-      <Button setSelected={setSelected} setArray={setArray} setVote={setVote}  selected={selected} zeroarray={zeroarray} array={array} vote={vote}/>
+      <Content votes={votes} anecdotes={anecdotes} selected={selected} zeroarray={zeroarray} vote={vote}/>
+      <Button setSelected={setSelected} setVotes={setVotes} setVote={setVote}  selected={selected} zeroarray={zeroarray} votes={votes} vote={vote}/>
+      <Content2 votes={votes} anecdotes={anecdotes} selected={selected} zeroarray={zeroarray} vote={vote}/>
     </div>
   )
 }
