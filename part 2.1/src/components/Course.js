@@ -4,7 +4,6 @@ import Content from './Content'
 import Total from './Total'
 
 const Course = ({courses}) => {
-  console.log(courses)
 
     return (
     <div>
