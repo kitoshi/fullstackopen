@@ -7,7 +7,7 @@ const Total = ({ courses }) => {
     )
 
     return (
-        <p>Number of exercises {reducer}</p>
+        <p style={{fontWeight: "bold"}}>Number of exercises {reducer}</p>
     ) 
 }
 
