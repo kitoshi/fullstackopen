@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Total = ({ course }) => {
-    const reducer = course.parts.reduce( 
+const Total = ({ courses }) => {
+    const reducer = courses.parts.reduce( 
         (accumulator, currentValue) => accumulator + currentValue.exercises,
         0
     )
