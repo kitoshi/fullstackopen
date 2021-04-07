@@ -3,34 +3,42 @@ import React, { useState } from 'react'
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
-
-  const addPerson = (event) => {
+  
+    const addPerson = (event) => {
     event.preventDefault()
     const personsObject = {
-      content: newName,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
-      id: persons.length + 1,
-    }
-  
+        content: newName,
+        date: new Date().toISOString(),
+        important: Math.random() < 0.5,
+        id: persons.length + 1,
+      }
+      const isDuplicate = persons.map(person => person.content)
+      if (isDuplicate.includes(newName)) {
+          return (
+              window.alert(`${newName} is already added to phonebook`)
+            )
+        }
+      else 
     setPersons(persons.concat(personsObject))
     setNewName('')
-  }
+    }
+  
   
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
-
+  
   const personlist = (persons) => {
     return (
       <ul key={persons.id}>{persons.content}</ul>
     )
   }
 
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
+      <form onSubmit={addPerson} >
         <div>
           name: <input 
                   value={newName}
@@ -45,6 +53,6 @@ const App = () => {
       {persons.map(personlist)}
     </div>
   )
-}
+  }
 
 export default App
