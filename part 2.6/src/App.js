@@ -4,7 +4,9 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ newFilter, setNewFilter ] = useState('')
   
+
   const addAll = (event) =>{
       addPerson(event)
       addNumber(event)
@@ -14,24 +16,25 @@ const App = () => {
     const addPerson = (event) => {
     event.preventDefault()
     const personsObject = {
-        content: newName,
+        name: newName,
         id: persons.length + 1,
       }
-      const isDuplicate = persons.map(person => person.content)
+      const isDuplicate = persons.map(person => person.name)
       if (isDuplicate.includes(newName)) {
           return (
               window.alert(`${newName} is already added to phonebook`)
             )
         }
-      else 
+      else {
     setPersons(persons.concat(personsObject))
     setNewName('')
+      }
     }
 
     const addNumber = (event) => {
       event.preventDefault()
       const numberObject = {
-          content: newName,
+          name: newName,
           number: newNumber,
           id: persons.length + 1,
         }
@@ -41,11 +44,15 @@ const App = () => {
                 window.alert(`${newNumber} is already added to phonebook`)
               )
           }
-        else 
+        else {
       setPersons(persons.concat(numberObject))
       setNewNumber('')
+        }
       }
-  
+
+      
+      
+
   
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -53,17 +60,31 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
-  
-  const personlist = (persons) => {
+
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
+  }
+
+  const filterItems = persons.filter(person => person.name.toLowerCase().indexOf(newFilter.toLowerCase()) !== -1)
+  console.log(filterItems)
+
+  const filterList = (filterItems) => {
     return (
-      <ul key={persons.content}>{persons.content} {persons.number}</ul>
+      <ul key={filterItems.id}>{filterItems.name} {filterItems.number}</ul>
     )
   }
 
+  
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <div>
+        <form>
+        filter shown with: <input value={newFilter} onChange={handleFilterChange} type='text'/>
+        </form>
+      </div>
+      <h2>Add a New</h2>
       <form onSubmit={addAll}>
         <div>
           name: <input 
@@ -81,7 +102,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(personlist)}
+      {filterItems.map(filterList)}
     </div>
   )
   }
