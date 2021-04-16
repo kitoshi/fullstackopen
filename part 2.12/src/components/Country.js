@@ -10,11 +10,15 @@ const Country = (props) => {
             </>
         )
     }
-    if (props.filterItems.length === 1)
-    {
+    if (props.filterItems.length === 1) {
         return (
             <>
-                {props.singleItem} 
+                <h2>{props.filterItems[0].name}</h2>
+                  Capital: {props.filterItems[0].capital}
+                  <br></br>
+                  Population: {props.filterItems[0].population}
+                <h2>Languages</h2>
+                <li></li>
             </>
         )
     }

@@ -28,21 +28,11 @@ const App = () => {
 
   const filterList = (filterItems) => {
     return (
-      <ul key={filterItems.id}>{filterItems.name} {filterItems.number}</ul>
+      <ul key={filterItems.numericCode}>{filterItems.name} {filterItems.number}</ul>
     )
   }
 
-  const singleItem = (filterItems) => {
-    return (
-      <ul key={filterItems.id}>
-        <h2>{filterItems.name}</h2>
-          {filterItems.capital}
-          {filterItems.population}
-        <h2>Languages</h2>
-        <li>{filterItems.languages}</li>
-      </ul>
-    )
-  }
+
 
   return (
     <div>
@@ -50,7 +40,7 @@ const App = () => {
         handleFilterChange={handleFilterChange} newFilter={newFilter}
       />
       <Country
-        filterItems={filterItems} setNewFilter={setNewFilter} filterList={filterList} singleItem={singleItem}
+        filterItems={filterItems} filterList={filterList}
       />
     </div>
   );
