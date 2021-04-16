@@ -28,7 +28,7 @@ const App = () => {
 
   const filterList = (filterItems) => {
     return (
-      <ul key={filterItems.numericCode}>{filterItems.name} {filterItems.number}</ul>
+      <ul key={filterItems.numericCode}>{filterItems.name}</ul>
     )
   }
 
@@ -40,7 +40,7 @@ const App = () => {
         handleFilterChange={handleFilterChange} newFilter={newFilter}
       />
       <Country
-        filterItems={filterItems} filterList={filterList}
+        filterItems={filterItems} filterList={filterList} 
       />
     </div>
   );

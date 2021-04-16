@@ -18,7 +18,7 @@ const Country = (props) => {
                   <br></br>
                   Population: {props.filterItems[0].population}
                 <h2>Languages</h2>
-                <li></li>
+                {props.filterItems[0].languages.map(language => <li>{language.name}</li>)}
             </>
         )
     }
