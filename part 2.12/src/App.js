@@ -1,13 +1,15 @@
 import './App.css';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Filter from './components/Filter'
+import Filter from './components/Filter';
 import Country from './components/Country';
 
 
 const App = () => {
   const [countries, setCountries] = useState([])
+  const [weatherapi, setWeatherapi] = useState([])
   const [newFilter, setNewFilter] = useState('')
+
 
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
+
 
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
@@ -32,7 +35,24 @@ const App = () => {
     )
   }
 
+  useEffect(() => {
+    if (filterItems.length === 1 && weatherapi.length === 0) {
+      const api_key = process.env.REACT_APP_API_KEY
+      const params = {
+        access_key: api_key,
+        query: filterItems[0].capital
+      }
 
+
+      axios.get('http://api.weatherstack.com/current', { params })
+        .then(response => {
+          console.log(response)
+          setWeatherapi(response.data)
+        });
+    };
+  }, [filterItems, weatherapi])
+
+  
 
   return (
     <div>
@@ -40,7 +60,7 @@ const App = () => {
         handleFilterChange={handleFilterChange} newFilter={newFilter}
       />
       <Country
-        filterItems={filterItems} filterList={filterList} 
+        filterItems={filterItems} filterList={filterList} weatherapi={weatherapi} setWeatherapi={setWeatherapi}
       />
     </div>
   );
