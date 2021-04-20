@@ -66,7 +66,6 @@ const App = () => {
       }
 
       
-      
 
   
   const handleNameChange = (event) => {
@@ -81,11 +80,24 @@ const App = () => {
   }
 
   const filterItems = persons.filter(person => person.name.toLowerCase().indexOf(newFilter.toLowerCase()) !== -1)
-  console.log(filterItems)
+  
 
   const filterList = (filterItems) => {
+    const removeNumber = () => {
+      if (window.confirm("Remove Number?"))
+      personsService
+        .remove(filterItems.id)
+      .then(
+        setTimeout(() => {}, 5000),
+        personsService
+          .getAll()
+          .then(response => {
+            setPersons(response.data)
+            console.log(response.data)
+          }))
+    }
     return (
-      <ul key={filterItems.id}>{filterItems.name} {filterItems.number}</ul>
+      <ul key={filterItems.id}>{filterItems.name} {filterItems.number} <button onClick={removeNumber} id={filterItems.id}>Remove</button></ul>
     )
   }
 
