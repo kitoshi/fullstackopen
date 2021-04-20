@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Add from './components/Add';
 import Filter from './components/Filter';
 import Persons from './components/Persons'
-import axios from 'axios'
+import personsService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -11,11 +11,9 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
   
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personsService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
@@ -58,8 +56,8 @@ const App = () => {
               )
           }
         else {
-          axios
-          .post('http://localhost:3001/persons', numberObject)
+          personsService
+          .create(numberObject)
           .then(response => {
             setPersons(persons.concat(response.data))
             setNewNumber('')
