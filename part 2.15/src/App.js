@@ -47,15 +47,26 @@ const App = () => {
       const numberObject = {
           name: newName,
           number: newNumber,
-          id: persons.length + 1,
+          id: persons.length,
         }
-        const isDuplicate = persons.map(person => person.number)
-        if (isDuplicate.includes(newNumber)) {
-            return (
-                window.alert(`${newNumber} is already added to phonebook`)
-              )
+        const isDuplicate = persons.map(person => person.name)
+        const putID = isDuplicate.indexOf(newName) + 1
+        if (isDuplicate.includes(newName)) {
+          window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+          personsService
+          .update(putID, numberObject)
+          .then(response => {
+            setTimeout(() => {}, 100000)
+            setPersons(persons.map(person => person.id !== putID ? person : response.data))
+            setNewNumber('')
+          })
           }
         else {
+          const numberObject = {
+            name: newName,
+            number: newNumber,
+            id: persons.length + 1,
+          }
           personsService
           .create(numberObject)
           .then(response => {
@@ -88,7 +99,7 @@ const App = () => {
       personsService
         .remove(filterItems.id)
       .then(
-        setTimeout(() => {}, 5000),
+        setTimeout(() => {}, 100000),
         personsService
           .getAll()
           .then(response => {
