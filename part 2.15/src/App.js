@@ -3,12 +3,16 @@ import Add from './components/Add';
 import Filter from './components/Filter';
 import Persons from './components/Persons'
 import personsService from './services/persons'
+import Notification from './components/Notification'
+import Success from './components/Success'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
+  const [ successMessage, setSuccessMessage ] = useState(null)
   
   useEffect(() => {
     personsService
@@ -72,6 +76,11 @@ const App = () => {
           .then(response => {
             setPersons(persons.concat(response.data))
             setNewNumber('')
+            setSuccessMessage(
+              `'${numberObject.name}' was added`)
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 5000)
           })
         }
       }
@@ -92,12 +101,20 @@ const App = () => {
 
   const filterItems = persons.filter(person => person.name.toLowerCase().indexOf(newFilter.toLowerCase()) !== -1)
   
+  
 
   const filterList = (filterItems) => {
     const removeNumber = () => {
       if (window.confirm("Remove Number?"))
       personsService
         .remove(filterItems.id)
+        .catch(() => {
+          setErrorMessage(
+            `Note '${filterItems.name}' was already removed from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)})
       .then(
         setTimeout(() => {}, 100000),
         personsService
@@ -105,17 +122,21 @@ const App = () => {
           .then(response => {
             setPersons(response.data)
             console.log(response.data)
-          }))
+          })
+          
+          )
     }
     return (
       <ul key={filterItems.id}>{filterItems.name} {filterItems.number} <button onClick={removeNumber} id={filterItems.id}>Remove</button></ul>
     )
   }
-
+  
   
 
   return (
     <div>
+      <Notification message={errorMessage}/>
+      <Success completed={successMessage}/>
       <h1>Phonebook</h1>
       <Filter
       handleFilterChange={handleFilterChange} newFilter={newFilter}
